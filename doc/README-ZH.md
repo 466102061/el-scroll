@@ -34,24 +34,24 @@ scroller.on('scrollEnd', ({ctx, dist})=>{
 + [examples/index.html](https://github.com/466102061/el-scroll/tree/main/examples)
 #### Configuration
 
-+ #####let scroller = new ElScroll(options)
++ let scroller = new ElScroll(options)
 + options(String)
 
 | 字段 | 类型 | 是否必须 | 默认值 | 描述 |
 | :----: | :----: | :----: | :----: | :---- |
-| options | String | yes | -- | 滚动元素-element. |
+| options | String | yes | -- | 滚动元素的id或class. |
 
 + options(HTMLDivElement)
 
 | 字段 | 类型 | 是否必须 | 默认值 | 描述 |
 | :----: | :----: | :----: | :----: | :---- |
-| options | HTMLDivElement | yes | -- | 滚动元素-element. |
+| options | HTMLDivElement | yes | -- | 滚动元素-HTMLDivElement. |
 
 + options(Object)
 
 | 字段 | 类型 | 是否必须 | 默认值 | 描述 |
 | :----: | :----: | :----: | :----: | :---- |
-| options.el | HTMLDivElement | yes | -- | 滚动元素-element. |
+| options.el | HTMLDivElement | yes | -- | 滚动元素-HTMLDivElement. |
 | options.click | Boolean | -- | false | 是否可点击. |
 | options.created | Function | -- | -- | 插件创建回调. |
 | options.destroy | Function | -- | -- | 插件销毁回调. |
@@ -63,5 +63,5 @@ scroller.on('scrollEnd', ({ctx, dist})=>{
 | scroller.on('scroll', callback) | 滚动事件回调. |
 | scroller.on('beforeScrollEnd', callback) | 滚动停止前回调，在该回调返回一个(负数)值，可控制最终停止位置. |
 | scroller.on('scrollEnd', callback) | 滚动停止回调. |
-| scroller.resetMaxScrollY() | 当滚动容器高度发生变化，需调用此函数，来重置可滚动的scrollY值. |
+| scroller.resetMaxScrollY() | 当滚动元素的高度发生变化，需调用此函数，来重置可滚动的scrollY值. |
 
