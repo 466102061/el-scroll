@@ -31,7 +31,7 @@ scroller.on('scrollEnd', ({ctx, dist})=>{
 });
 ```
 #### examples
-+ web：[examples/index.html](https://github.com/466102061/el-scroll/tree/main/examples)
++ [examples/index.html](https://github.com/466102061/el-scroll/tree/main/examples)
 #### Configuration
 
 + #####let scroller = new ElScroll(options)
