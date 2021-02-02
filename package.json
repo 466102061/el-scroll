@@ -1,0 +1,30 @@
+{
+  "name": "el-scroll",
+  "version": "1.0.0",
+  "description": "A plugin that can makes element scrolling smooth.",
+  "main": "dist/el-scroll.js",
+  "scripts": {
+    "build": "node build/build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "scroll",
+    "el-scroll",
+    "smooth-scroll",
+    "scroll-smooth"
+  ],
+  "author": "小小咖",
+  "email": "466102061@qq.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "chalk": "^4.1.0",
+    "dayjs": "^1.10.4",
+    "ora": "^5.3.0",
+    "rimraf": "^3.0.2",
+    "webpack": "^5.17.0",
+    "webpack-cli": "^4.4.0"
+  }
+}

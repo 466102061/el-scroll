@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui"/>
+<link rel="icon" href=""/>
+<title>example</title>
+<style type="text/css">
+*,*:before,*:after{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+.mbody{
+	width: 100%;
+	max-width: 487px;
+	margin: 0 auto;
+}
+.hd{
+	text-align: center;
+	font-size: 24px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.nav-title{
+	font-size: 18px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.title{
+	font-size: 14px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.div{
+	width: 100%;
+	height: 160px;
+	padding: 0 15px;
+	overflow: hidden;
+	background-color: #f2f2f2;
+}
+.div .p{
+	line-height: 40px;
+	color: #333;
+	font-size: 14px;
+	border-bottom: 1px solid #ddd;
+}
+.dw-ct {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    /* padding: 6px 0; */
+    overflow: hidden;
+}
+.dw-wrap{
+	background-color: #f2f2f2;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.dw-window {
+    position: absolute;
+    width: 100%;
+    height: 36px;
+    left: 0;
+    top: 50%;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+.dw-content {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-mask-box-image: linear-gradient(to top, transparent, transparent 5%, white 20%, white 80%, transparent 95%, transparent);
+}
+.dw-scroll-item {
+    width: 100%;
+    height: 180px;
+    padding: 0 2px;
+    text-align: center;
+    z-index: 12;
+    overflow: hidden;
+}
+.dw-scroll-item .dw-div {
+    padding: 72px 0;
+    overflow: auto;
+}
+.dw-scroll-item .dw-p {
+    min-height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+    color: #999;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.dw-scroll-item .dw-p.dw-active {
+    font-size: 15px;
+    color: #333;
+}
+</style>
+</head>
+
+<body>
+<div class="mbody">
+	<h2 class="hd">参考案例</h2>
+	<h3 class="nav-title">注意：请切换成移动端，效果更佳。</h3>
+	<h3 class="nav-title">一、基础用法</h3>
+	<div class="div">
+		<div id="J_div-1"></div>
+	</div>
+	<h3 class="nav-title">二、最终位置调整</h3>
+	<div class="dw-wrap">
+		<div class="dw-ct">
+			<div class="dw-window"></div>
+			<div class="dw-content">
+				<div class="dw-scroll-item">
+					<div class="dw-div" id="J_div-2">
+						<p class="dw-p">2010</p>
+						<p class="dw-p">2011</p>
+						<p class="dw-p">2012</p>
+						<p class="dw-p">2013</p>
+						<p class="dw-p">2014</p>
+						<p class="dw-p">2015</p>
+						<p class="dw-p">2016</p>
+						<p class="dw-p">2017</p>
+						<p class="dw-p">2018</p>
+						<p class="dw-p">2019</p>
+						<p class="dw-p">2020</p>
+						<p class="dw-active dw-p">2021</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<h3 class="nav-title">三、加载跟多</h3>
+	<div class="div">
+		<div id="J_div-3"></div>
+	</div>
+</div>
+<script type="text/javascript" src="../dist/el-scroll.js"></script>
+<script type="text/javascript">
+var pageSiz = 20, page = 0;
+function createElement(data, k, showTime){
+	var html = '';
+	k = k || 0;
+	var h = new Date().getHours();
+	var m = new Date().getMinutes();
+	var s = new Date().getSeconds();
+	for(var i = 0; i < pageSiz; i++){
+		var index = i + 1 + k;
+		html += '<p class="p">' + index + '.'+data+'-' + index;
+		if(showTime){
+			html += ' ' + h + ':' + m + ':' + s  + '</p>';
+		}else{
+			 html += '</p>';
+		}
+	}
+	return html;
+}
+window.onload = function(){
+	var oDiv1 = document.getElementById("J_div-1");
+	var oDiv2 = document.getElementById("J_div-2");
+	var oDiv3 = document.getElementById("J_div-3");
+	var ElScroll = window.ElScroll.default;//umd打包模式，模式导出__esModule模块
+
+	oDiv1.innerHTML = createElement('初始化数据');
+	oDiv3.innerHTML = createElement('初始化数据');
+
+	//一、基础用法
+	new ElScroll('#J_div-1');
+
+	//二、步数调整
+	var scroller2 = new ElScroll("#J_div-2");
+	//滚动事件监听 - 滚动停止前
+	scroller2.on("beforeScrollEnd", function(res){
+		//选中滚动步数修复
+		var rowHeight = 36;
+        var dist = Math.abs(res.dist);
+        var yu = dist%rowHeight;
+        var index;
+        if( yu > 0){
+        	index = Math.floor(dist/rowHeight);
+        	index = yu > 0.5*rowHeight ? index+1 : index;
+        	dist = rowHeight*index;
+        }
+        dist = res.dist > 0 ? dist : -dist;
+
+		//可以修改滚动最终停止的位置
+		return dist;
+	});
+
+	//三、加载跟多
+	var scroller3 = new ElScroll("#J_div-3");
+
+	// //滚动事件监听 - 滚动中
+	// scroller3.on("scroll", function(res){
+	// 	// let { ctx, dist } = res;
+	// 	console.log("scrolling-", res.dist);
+	// });
+	// //滚动事件监听 - 滚动停止前
+	// scroller3.on("beforeScrollEnd", function(res){
+	// 	console.log("beforeScrollEnd-", res.dist);
+
+	// 	//可以修改滚动最终停止的位置
+	// 	// return -10;
+	// });
+	//滚动事件监听 - 滚动停止
+	scroller3.on("scrollEnd", function(res){
+		console.log("scrollEnd-", res.dist);
+		//重置可滚动的位移-Y
+		// res.ctx.resetMaxScrollY();
+		loadMore();
+	});
+
+	//模拟加载跟多
+	function loadMore(){
+		page++;
+		var k = pageSiz * page;
+		//新增数据
+		oDiv3.innerHTML += createElement('新增数据', k, true);
+
+		//数据变更，滚动容器高度变更，故重置可滚动Y
+		scroller3.resetMaxScrollY();
+	}
+
+}
+</script>
+</body>
+
+</html>

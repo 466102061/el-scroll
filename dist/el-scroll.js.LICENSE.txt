@@ -1,0 +1,10 @@
+/*!
+ * @desc a plugin for element smooth scrolling
+ * @version 1.0.0
+ * @author 小小咖 466102061@qq.com
+ * @time 2021-2-2 14:58:51
+ *
+ * @example
+ * new ElScroll({
+ * })
+ */
