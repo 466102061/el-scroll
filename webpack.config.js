@@ -1,12 +1,12 @@
 const path = require('path')
 const webpack = require('webpack')
 const pkg = require('./package.json')
-const time = require("dayjs")().format("YYYY-M-D HH:mm:ss")
+const timeFormat = require("./src/utils/time.js")
 const bannerPlugin = new webpack.BannerPlugin(
 `@desc ${ pkg.description }
 @version ${ pkg.version }
 @author ${ pkg.author + ' ' + pkg.email }
-@time ${ time }
+@time ${ timeFormat("yyyy-MM-dd hh:mm:ss") }
 
 @example
 let scroller = new ElScroll('#J_scroll');
