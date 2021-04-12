@@ -1,7 +1,7 @@
 ### el-scroll
 自定义元素滚动插件。
 
-#### 注意事项 | [English](https://github.com/466102061/el-scroll#readme)
+#### 注意事项 | [版本更新](https://github.com/466102061/el-scroll/blob/main/doc/Rupdate.md) | [English](https://github.com/466102061/el-scroll#readme)
 + 滚动元素的父节点(即滚动容器), overflow 字段必须为 hidden.
 
 #### Install
