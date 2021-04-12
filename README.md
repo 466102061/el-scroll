@@ -1,7 +1,7 @@
 ### el-scroll
 A plugin that can makes element scrolling smooth.
 
-#### Notes | [Update](https://github.com/466102061/el-scroll/blob/main/doc/Rupdate.md) | [简体中文](https://github.com/466102061/el-scroll/blob/main/doc/README-ZH.md)
+#### Notes | [Update](https://github.com/466102061/el-scroll/blob/main/doc/update.md) | [简体中文](https://github.com/466102061/el-scroll/blob/main/doc/README-ZH.md)
 + The parent element of scrolling target, overflow fields must be hidden.
 
 #### Install
