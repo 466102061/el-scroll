@@ -1,6 +1,6 @@
 {
   "name": "el-scroll",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A plugin that can makes element scrolling smooth.",
   "main": "dist/el-scroll.js",
   "scripts": {

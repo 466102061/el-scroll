@@ -31,49 +31,66 @@ function preventDefault(e){
     }
 }
 
-//事件绑定
+/**
+ * @desc 事件绑定函数
+ * @param {Object} ctx
+ * @return 事件解绑函数
+ * */
 function addEventListener(ctx){
-	if(!ctx || !ctx.$el) return;
+	if(!ctx || !ctx.$el) return () => {};
+	let touchStartProxy = (e) => {
+		touchStartHandle(ctx, e);
+	}
+	let touchMoveProxy = (e) => {
+		touchMoveHandle(ctx, e);
+	}
+	let touchEndProxy = (e) => {
+		touchEndHandle(ctx, e);
+	}
+	let mouseleaveProxy = (e) => {
+		mouseleaveHandle(ctx, e);
+	}
+	let cancelBrowersAnimationFrameProxy = (e) => {
+		cancelBrowersAnimationFrame(ctx, e);
+	}
 	if(ctx.isMobile){
-	    ctx.$el.addEventListener("touchstart", touchStartHandle.bind(null, ctx), false);
-	    ctx.$el.addEventListener("touchmove", touchMoveHandle.bind(null, ctx), false);
-	    ctx.$el.addEventListener("touchend", touchEndHandle.bind(null, ctx), false);				
+	    ctx.$el.addEventListener("touchstart", touchStartProxy, false);
+	    ctx.$el.addEventListener("touchmove", touchMoveProxy, false);
+	    ctx.$el.addEventListener("touchend", touchEndProxy, false);				
     }else{
-	    ctx.$el.addEventListener("mousedown", touchStartHandle.bind(null, ctx), false);
-	    ctx.$el.addEventListener("mousemove", touchMoveHandle.bind(null, ctx), false);
-	    ctx.$el.addEventListener("mouseup", touchEndHandle.bind(null, ctx), false);
+	    ctx.$el.addEventListener("mousedown", touchStartProxy, false);
+	    ctx.$el.addEventListener("mousemove", touchMoveProxy, false);
+	    ctx.$el.addEventListener("mouseup", touchEndProxy, false);
 
 	    //fix:鼠标离开制定区域，mouseup事件丢失
-	    ctx.$el.addEventListener("mouseleave", mouseleaveHandle.bind(null, ctx), false);
+	    ctx.$el.addEventListener("mouseleave", mouseleaveProxy, false);
     }
     //运动结束，清除定时器
     cssTransitionEndEach((item)=>{
-    	ctx.$el.addEventListener(item, cancelBrowersAnimationFrame.bind(null, ctx), false);
+    	ctx.$el.addEventListener(item, cancelBrowersAnimationFrameProxy, false);
     });
-}
 
-//解除事件绑定
-function removeEventListener(ctx){
-	if(!ctx || !ctx.$el) return;
-    if(ctx.isMobile){
-	    ctx.$el.removeEventListener("touchstart", touchStartHandle.bind(null, ctx), false);
-	    ctx.$el.removeEventListener("touchmove", touchMoveHandle.bind(null, ctx), false);
-	    ctx.$el.removeEventListener("touchend", touchEndHandle.bind(null, ctx), false);				
-    }else{
-	    ctx.$el.removeEventListener("mousedown", touchStartHandle.bind(null, ctx), false);
-	    ctx.$el.removeEventListener("mousemove", touchMoveHandle.bind(null, ctx), false);
-	    ctx.$el.removeEventListener("mouseup", touchEndHandle.bind(null, ctx), false);
-	    ctx.$el.removeEventListener("mouseleave", mouseleaveHandle.bind(null, ctx), false);
+    //返回-解除事件绑定函数
+    return () => {
+	    if(ctx.isMobile){
+		    ctx.$el.removeEventListener("touchstart", touchStartProxy, false);
+		    ctx.$el.removeEventListener("touchmove", touchMoveProxy, false);
+		    ctx.$el.removeEventListener("touchend", touchEndProxy, false);	
+	    }else{
+		    ctx.$el.removeEventListener("mousedown", touchStartProxy, false);
+		    ctx.$el.removeEventListener("mousemove", touchMoveProxy, false);
+		    ctx.$el.removeEventListener("mouseup", touchEndProxy, false);
+		    ctx.$el.removeEventListener("mouseleave", mouseleaveProxy, false);
+	    }
+		//运动结束，清除定时器
+	    cssTransitionEndEach((item)=>{
+	    	ctx.$el.removeEventListener(item, cancelBrowersAnimationFrameProxy, false);
+	    });
     }
-	//运动结束，清除定时器
-    cssTransitionEndEach((item)=>{
-    	ctx.$el.removeEventListener(item, cancelBrowersAnimationFrame.bind(null, ctx), false);
-    });
 }
 
 export {
 	preventDefault,
 	stopPropagation,
-	addEventListener,
-	removeEventListener
+	addEventListener
 }

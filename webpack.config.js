@@ -12,18 +12,30 @@ const bannerPlugin = new webpack.BannerPlugin(
 let scroller = new ElScroll('#J_scroll');
 
 //events
-scroller.on('scroll', ({ctx, dist})=>{
+scroller.on('scroll', ({ctx, dist, event})=>{
   console.log('scrolling and scrollY is ', dist);
 });
 
-scroller.on('beforeScrollEnd', ({ctx, dist})=>{
+scroller.on('beforeScrollEnd', ({ctx, dist, event})=>{
   console.log('before scrolling stops and scrollY is ', dist);
   //Returns a negative number that determines where the final scrolling stops.
   return dist;
 });
 
-scroller.on('scrollEnd', ({ctx, dist})=>{
+scroller.on('scrollEnd', ({ctx, dist, event})=>{
   console.log('scrolling stops and scrollY is ', dist);
+});
+
+scroller.on('tap', ({ctx, event})=>{
+  console.log('tap event', event);
+});
+
+scroller.on('longPress', ({ctx, event})=>{
+  console.log('longPress event', event);
+});
+
+scroller.on('destroy', ()=>{
+  console.log('destroy callback');
 });
 `
 )

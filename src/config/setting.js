@@ -3,15 +3,21 @@ const pkg = require('../../package.json')
 //参数配置
 export let setting = {
 	el: '',						//滚动元素
-	click: false,				//滚动容器内，是否可点击
+	longPressTime: 350,			//长按时间
+	stopDefaultEvent: true,     //是否阻止浏览器默认事件、事件冒泡等
+}
+
+//默认配置
+export let defaultSetting = {
 	version: pkg.version,		//版本号
-	created: (res)=>{},			//插件安装完成回调
-	destroy: (res)=>{},			//插件卸载完成回调
 }
 
 //滚动监听事件
 export let eventMap = {
-	"scroll" : "scroll",					//滚动中
-	"scrollEnd" : "scrollEnd",				//滚动停止前
-	"beforeScrollEnd" : "beforeScrollEnd",  //滚动停止
+	"tap": "tap",							//单击click
+	"longPress": "longPress",				//长按
+	"destroy": "destroy",					//销毁
+	"scroll": "scroll",					    //滚动中
+	"scrollEnd": "scrollEnd",				//滚动停止前
+	"beforeScrollEnd": "beforeScrollEnd",  //滚动停止
 }

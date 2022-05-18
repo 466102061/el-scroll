@@ -177,7 +177,16 @@ window.onload = function(){
 	oDiv3.innerHTML = createElement('初始化数据');
 
 	//一、基础用法
-	new ElScroll('#J_div-1');
+	var scroller = new ElScroll({ 
+		el: '#J_div-1',
+		stopDefaultEvent: false
+	});
+	scroller.on('tap', (e) => {
+		console.log('tap-', e);
+	})
+	scroller.on('longPress', (e) => {
+		console.log('longPress-', e);
+	})
 
 	//二、步数调整
 	var scroller2 = new ElScroll("#J_div-2");
@@ -232,7 +241,6 @@ window.onload = function(){
 		//数据变更，滚动容器高度变更，故重置可滚动Y
 		scroller3.resetMaxScrollY();
 	}
-
 }
 </script>
 </body>

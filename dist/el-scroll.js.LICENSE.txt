@@ -1,25 +1,37 @@
 /*!
  * @desc A plugin that can makes element scrolling smooth.
- * @version 1.0.0
+ * @version 1.0.1
  * @author 小小咖 466102061@qq.com
- * @time 2021-02-06 17:28:35
+ * @time 2022-05-18 18:15:02
  *
  * @example
  * let scroller = new ElScroll('#J_scroll');
  *
  * //events
- * scroller.on('scroll', ({ctx, dist})=>{
+ * scroller.on('scroll', ({ctx, dist, event})=>{
  *   console.log('scrolling and scrollY is ', dist);
  * });
  *
- * scroller.on('beforeScrollEnd', ({ctx, dist})=>{
+ * scroller.on('beforeScrollEnd', ({ctx, dist, event})=>{
  *   console.log('before scrolling stops and scrollY is ', dist);
  *   //Returns a negative number that determines where the final scrolling stops.
  *   return dist;
  * });
  *
- * scroller.on('scrollEnd', ({ctx, dist})=>{
+ * scroller.on('scrollEnd', ({ctx, dist, event})=>{
  *   console.log('scrolling stops and scrollY is ', dist);
+ * });
+ *
+ * scroller.on('tap', ({ctx, event})=>{
+ *   console.log('tap event', event);
+ * });
+ *
+ * scroller.on('longPress', ({ctx, event})=>{
+ *   console.log('longPress event', event);
+ * });
+ *
+ * scroller.on('destroy', ()=>{
+ *   console.log('destroy callback');
  * });
  *
  */

@@ -1,6 +1,5 @@
 import { 
-	addEventListener, 
-	removeEventListener 
+	addEventListener
 } from '../event/event.js'
 import {
 	getNodeTargetByStyle,
@@ -46,31 +45,28 @@ class Scroll extends Emitter{
         //设置滚动最大步数(临界值)
 		this.resetMaxScrollY();
 
-		//绑定事件
-	    addEventListener(this);
-
-	    //回调 - 插件已安装
-        if(objectProtoType.isFunction(this.options.created)){
-            this.options.created({ ctx: this });
-        }
+		//绑定事件，并返回解绑事件函数
+	    this.removeEvents = addEventListener(this);
 
 	    return this;
 	}
     // 设置最大值
     resetMaxScrollY(){
         let oDiv = getNodeTargetByStyle(this.$el, 'overflowY', 'hidden');
+        let clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        if(!oDiv || oDiv === window){
+            this.maxScrollY = clientHeight;
+            return;
+        }
         let height = formatStyleValueForNumber(document.defaultView.getComputedStyle(oDiv)['height']);
-        let clientHeight = Math.abs(height) > 0 ? Math.abs(height) : document.documentElement.clientHeight;
+        clientHeight = Math.abs(height) > 0 ? Math.abs(height) : clientHeight;
         this.maxScrollY = Math.max(this.$el.clientHeight - clientHeight, 0);
     }
 	destroy(){
+        //插件卸载
+        this.emit(this.eventMap.destroy);
 		//绑定事件
-		removeEventListener(this);
-
-        //回调 - 插件卸载
-        if(objectProtoType.isFunction(this.options.destroy)){
-            this.options.destroy({ ctx: this });
-        }
+		this.removeEvents();
 	}
 }
 

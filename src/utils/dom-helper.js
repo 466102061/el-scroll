@@ -1,3 +1,4 @@
+import { objectProtoType } from './utils.js';
 /**
 ** @desc 获取想要的参数的目标节点，并指定属性以及属性值
 ** @param { String } element
@@ -24,7 +25,36 @@ function formatStyleValueForNumber(str){
     return Number(String(str).match(/\+?\-?\d+/g)[0]);
 }
 
+/**
+ * @desc 获取el元素的node节点
+ * @param {String} el
+ * */
+function getHTMLDivElement(el){
+    if(!el) return null;
+    if(objectProtoType.isString(el)){
+        let tag = el.charAt(0);
+        //优先id获取
+        if(tag == '#'){
+            el = document.getElementById(el.substr(1));
+        }else if(tag == '.'){
+            //再class获取
+            el = document.querySelector(el);
+        }else {
+            el = document.getElementById(el);
+            if(!el){
+                el = document.querySelector('.' + el);
+            }
+        }
+        return el;
+    }else if(objectProtoType.isHTMLDivElement(el)){
+        return el;
+    }else{
+        return null;
+    }
+}
+
 export {
+    getHTMLDivElement,
 	getNodeTargetByStyle,
 	formatStyleValueForNumber
 }

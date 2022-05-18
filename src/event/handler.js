@@ -3,12 +3,17 @@ import { cssTransition } from '../utils/animation-frame.js'
 import { preventDefault, stopPropagation } from './event.js'
 
 function touchStartHandle(ctx, event){
-	//是否支持click事件,支持不阻止浏览器的默认事件传递
-	if(!ctx.options.click){
-		//阻止默认行为
+    if(ctx.options.click){//兼容上一个版本的参数
+        ctx.options.stopDefaultEvent = false;
+    }
+    //阻止浏览器的默认事件传递(即阻止单击、长按等事件)
+	if(ctx.options.stopDefaultEvent){
         preventDefault(event);
         stopPropagation(event);
-	}
+        ctx._lastLongPressTime = 0;
+	}else{
+        ctx._lastLongPressTime = new Date().getTime();
+    }
 
     //兼容
     let touch;
@@ -38,6 +43,7 @@ function touchMoveHandle(ctx, event){
 	//阻止默认行为
 	preventDefault(event);
 	stopPropagation(event);
+    ctx._lastLongPressTime = 0;
 	//判断是否先执行了touchstart/mosuedown
 	if(!ctx.isReadyToMove) return;
 
@@ -73,19 +79,21 @@ function touchMoveHandle(ctx, event){
     ctx.timer = cssTransition(ctx.$el, dist, 0);
 
     //滚动-事件监听回调
-    ctx.emit(ctx.eventMap.scroll, { ctx, dist });
+    ctx.emit(ctx.eventMap.scroll, { ctx, dist, event });
 
     // console.log("移动：",touch.pageY,dist,ctx.lastY,ctx.isReadyToMove);
     // console.log("移动：",dist,ctx.lastY,ctx.isReadyToMove);
 }
 
 function touchEndHandle(ctx, event){
-	//是否支持click事件,支持不阻止浏览器的默认事件传递
-	if(!ctx.options.click){
+	//阻止浏览器的默认事件传递(即阻止单击、长按等事件)
+	if(ctx.options.stopDefaultEvent){
 		//阻止默认行为
         preventDefault(event);
         stopPropagation(event);
-	}
+	}else if(ctx._lastLongPressTime > 0){
+        emitDefaultEvents(ctx, event);
+    }
     //判断是否先执行了touchstart/mosuedown
 	if(!ctx.isReadyToMove) return;
     /*点透事件允许通过*/
@@ -100,17 +108,17 @@ function touchEndHandle(ctx, event){
     dist = dist < -ctx.maxScrollY ? -ctx.maxScrollY : dist;
 
     //运动结束特殊处理(共外部函数调用，最终停止前，调整最终停止位置)
-    scrollEndCssTransition(ctx, dist);
+    scrollEndCssTransition(ctx, dist, event);
 
     ctx.isReadyToMove = false;
     // console.log("结束：",ctx.isReadyToMove);
 }
 
 //运动结束特殊处理(共外部函数调用，最终停止前，调整最终停止位置)
-function scrollEndCssTransition(ctx, dist){ 
+function scrollEndCssTransition(ctx, dist, event){ 
 
     //运动停止前 - 事件监听回调
-    let res = ctx.emit(ctx.eventMap.beforeScrollEnd, { ctx, dist });
+    let res = ctx.emit(ctx.eventMap.beforeScrollEnd, { ctx, dist, event });
     if(res && res.length){
         res = res[res.length - 1];
         //y-axis  < 0
@@ -125,7 +133,7 @@ function scrollEndCssTransition(ctx, dist){
     ctx.timer = cssTransition(ctx.$el, dist, ctx.speed);
 
     //运动停止-事件监听回调
-    ctx.emit(ctx.eventMap.scrollEnd, { ctx, dist: 0 });
+    ctx.emit(ctx.eventMap.scrollEnd, { ctx, dist: 0, event });
 }
 
 /**
@@ -161,6 +169,18 @@ function mouseleaveHandle(ctx, events){
     //判断是否先执行了touchstart/mosuedown
     if(!ctx.isReadyToMove) return;
     touchEndHandle(ctx, events);
+}
+
+//浏览器默认事件：长按、单击等
+function emitDefaultEvents(ctx, event){
+    let now = new Date().getTime();
+    let diff = now - ctx._lastLongPressTime - ctx.options.longPressTime;
+    ctx._lastLongPressTime = 0;
+    if(diff > 0){//长按
+        ctx.emit(ctx.eventMap.longPress, { ctx, event });
+    }else{//单击
+        ctx.emit(ctx.eventMap.tap, { ctx, event });
+    }
 }
 
 export {
